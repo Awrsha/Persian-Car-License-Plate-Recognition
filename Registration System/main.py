@@ -7,14 +7,13 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QFileDialog, QMessageBox
 from mainwindow_ui import Ui_MainWindow
 
 import os
-os.environ["TF_USE_LEGACY_KERAS"]="1"
+os.environ["TF_USE_LEGACY_KERAS"] = "1"
 
 import tensorflow as tf
 from tensorflow import keras
 from tensorflow.keras import layers
 from pathlib import Path
 import pytesseract
-import os
 import datetime
 
 class MainWindow(QMainWindow, Ui_MainWindow):
@@ -33,7 +32,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.closeButton.clicked.connect(self.close_camera)
         
         # Load trained model
-        self.model = keras.models.load_model('license_plate_model.h5')
+        self.model = keras.models.load_model('Models/license_plate_model.h5')
         
         # Mapping characters to integers
         characters = sorted(list(set('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ')))
@@ -58,6 +57,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.brightness = value
 
     def update_frame(self):
+        if self.cap is None:
+            return
+
         ret, frame = self.cap.read()
         if not ret:
             return
