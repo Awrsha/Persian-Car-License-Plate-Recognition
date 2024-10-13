@@ -15,7 +15,7 @@ templates = [os.path.basename(os.path.splitext(template)[0]) for template in os.
 noises = os.listdir('../Noises')
 glyph_cache = {}
 
-permutations = 50
+permutations = 60 # Total = permutations * 12 for exmaple if you choose 2500 you have 30000 plates after process
 
 template_letter_restrictions = {
     'template-artesh': ['U'],
@@ -77,7 +77,7 @@ def getNewPlate(letters, generated_plates, template):
             plate = [random.choice(numbers[1:]), 
                      random.choice(numbers),
                      random.choice(template_letter_restrictions[template]),
-                     random.choice(numbers), 
+                     random.choice(numbers[1:]), 
                      random.choice(numbers),
                      random.choice(numbers),
                      random.choice(numbers[1:]),
@@ -92,7 +92,7 @@ def getNewPlate(letters, generated_plates, template):
             plate = [random.choice(numbers[1:]), 
                      random.choice(numbers),
                      random.choice(template_letter_restrictions[template]),
-                     random.choice(numbers), 
+                     random.choice(numbers[1:]), 
                      random.choice(numbers),
                      random.choice(numbers),
                      random.choice(numbers[1:]),
