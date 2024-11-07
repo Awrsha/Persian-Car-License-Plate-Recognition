@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سیستم تشخیص پلاک خودرو - تنظیمات</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @font-face {
+            font-family: 'Vazir';
+            src: url('https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/Vazir-Regular.woff2') format('woff2');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+        body {
+            font-family: 'Vazir', sans-serif;
+            background-color: #f0f4f8;
+        }
+        .rtl {
+            direction: rtl;
+        }
+        .ltr {
+            direction: ltr;
+        }
+        .animate__animated {
+            animation-duration: 0.5s;
+        }
+        .btn {
+            padding: 0.5rem 1rem;
+            border-radius: 0.25rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .btn-edit {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .btn-delete {
+            background-color: #f44336;
+            color: white;
+        }
+        .btn-backup {
+            background-color: #007bff;
+            color: white;
+        }
+        .btn-reset {
+            background-color: #dc3545;
+            color: white;
+        }
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-bottom: 1rem;
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+        th, td {
+            border: 1px solid #e2e8f0;
+            padding: 0.75rem;
+            text-align: right;
+        }
+        th {
+            background-color: #f8fafc;
+            font-weight: bold;
+        }
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        .nav-menu {
+            background: linear-gradient(45deg, #3498db, #8e44ad);
+            padding: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .nav-logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+        }
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.25rem;
+            transition: background-color 0.3s;
+        }
+        .nav-link:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        .nav-link.active {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: linear-gradient(45deg, #3498db, #8e44ad);
+                padding: 1rem;
+            }
+            .nav-links.show {
+                display: flex;
+            }
+            .nav-toggle {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <nav class="nav-menu">
+        <div class="container mx-auto nav-container">
+            <a href="#" class="nav-logo"><i class="fas fa-car"></i> سیستم تشخیص پلاک خودرو</a>
+            <button class="nav-toggle" onclick="toggleMenu()">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="nav-links" id="navLinks">
+                <a href="{{ url_for('home') }}" class="nav-link"><i class="fas fa-home"></i> خانه</a>
+                <a href="{{ url_for('backup') }}" class="nav-link"><i class="fas fa-chart-bar"></i> گزارش‌ها</a>
+                <a href="{{ url_for('settings') }}" class="nav-link active"><i class="fas fa-cog"></i> تنظیمات</a>
+                <a href="{{ url_for('service') }}" class="nav-link"><i class="fas fa-headset"></i> پشتیبانی</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mx-auto px-4 py-8">
+        <section class="bg-white rounded-lg shadow-md p-6 mb-8 animate__animated animate__fadeInUp">
+            <h2 class="text-2xl font-semibold mb-4">تنظیمات سیستم</h2>
+            <form id="settings-form">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <h3 class="text-xl font-semibold mb-2">تنظیمات دوربین</h3>
+                        <div class="mb-4">
+                            <label for="camera-resolution" class="block mb-2">رزولوشن دوربین</label>
+                            <select id="camera-resolution" name="camera-resolution" class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <option value="720p">720p</option>
+                                <option value="1080p">1080p</option>
+                                <option value="4k">4K</option>
+                            </select>
+                        </div>
+                        <div class="mb-4">
+                            <label for="frame-rate" class="block mb-2">نرخ فریم</label>
+                            <input type="number" id="frame-rate" name="frame-rate" min="1" max="60" value="30" class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold mb-2">تنظیمات تشخیص</h3>
+                        <div class="mb-4">
+                            <label for="detection-threshold" class="block mb-2">آستانه تشخیص</label>
+                            <input type="range" id="detection-threshold" name="detection-threshold" min="0" max="1" step="0.01" value="0.5" class="w-full">
+                            <output for="detection-threshold" class="mt-1 block">0.5</output>
+                        </div>
+                        <div class="mb-4">
+                            <label for="min-plate-size" class="block mb-2">حداقل اندازه پلاک (پیکسل)</label>
+                            <input type="number" id="min-plate-size" name="min-plate-size" min="10" max="1000" value="50" class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-6">
+                    <h3 class="text-xl font-semibold mb-2">تنظیمات هشدار</h3>
+                    <div class="mb-4">
+                        <label class="flex items-center">
+                            <input type="checkbox" id="email-alerts" name="email-alerts" class="form-checkbox h-5 w-5 text-blue-600">
+                            <span class="mr-2">ارسال هشدار از طریق ایمیل</span>
+                        </label>
+                    </div>
+                    <div class="mb-4">
+                        <label class="flex items-center">
+                            <input type="checkbox" id="sms-alerts" name="sms-alerts" class="form-checkbox h-5 w-5 text-blue-600">
+                            <span class="mr-2">ارسال هشدار از طریق پیامک</span>
+                        </label>
+                    </div>
+                    <div class="mb-4">
+                        <label for="alert-interval" class="block mb-2">فاصله زمانی بین هشدارها (دقیقه)</label>
+                        <input type="number" id="alert-interval" name="alert-interval" min="1" max="1440" value="30" class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                </div>
+                <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded transition-colors duration-300">ذخیره تنظیمات</button>
+            </form>
+        </section>
+
+        <section class="bg-white rounded-lg shadow-md p-6 mb-8 animate__animated animate__fadeInUp">
+            <h2 class="text-2xl font-semibold mb-4">تنظیمات شبکه</h2>
+            <form id="network-settings-form">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <h3 class="text-xl font-semibold mb-2">تنظیمات IP</h3>
+                        <div class="mb-4">
+                            <label for="ip-address" class="block mb-2">آدرس IP</label>
+                            <input type="text" id="ip-address" name="ip-address" placeholder="192.168.1.100" pattern="^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$" class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                        </div>
+                        <div class="mb-4">
+                            <label for="subnet-mask" class="block mb-2">ماسک شبکه</label>
+                            <input type="text" id="subnet-mask" name="subnet-mask" placeholder="255.255.255.0" pattern="^(((255\.){3}(255|254|252|248|240|224|192|128|0+))|((255\.){2}(255|254|252|248|240|224|192|128|0+)\.0)|((255\.)(255|254|252|248|240|224|192|128|0+)(\.0+){2})|((255|254|252|248|240|224|192|128|0+)(\.0+){3}))$" class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                        </div>
+                        <div class="mb-4">
+                            <label for="default-gateway" class="block mb-2">دروازه پیش‌فرض</label>
+                            <input type="text" id="default-gateway" name="default-gateway" placeholder="192.168.1.1" pattern="^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$" class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold mb-2">تنظیمات DNS</h3>
+                        <div class="mb-4">
+                            <label for="primary-dns" class="block mb-2">DNS اصلی</label>
+                            <input type="text" id="primary-dns" name="primary-dns" placeholder="8.8.8.8" pattern="^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$" class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                        </div>
+                        <div class="mb-4">
+                            <label for="secondary-dns" class="block mb-2">DNS ثانویه</label>
+                            <input type="text" id="secondary-dns" name="secondary-dns" placeholder="8.8.4.4" pattern="^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$" class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded transition-colors duration-300 mt-4">ذخیره تنظیمات شبکه</button>
+            </form>
+        </section>
+    </main>
+
+    <footer class="bg-gray-800 text-white py-4 mt-8">
+        <div class="container mx-auto text-center">
+            <p>&copy; 2024 سیستم تشخیص پلاک خودرو. تمامی حقوق محفوظ است.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const navToggle = document.getElementById('nav-toggle');
+        const navLinks = document.getElementById('nav-links');
+
+        navToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('show');
+        });
+
+        // Form submission handlers
+        document.getElementById('settings-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Add code here to handle form submission
+            alert('تنظیمات سیستم با موفقیت ذخیره شد.');
+        });
+
+        document.getElementById('network-settings-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Add code here to handle form submission
+            alert('تنظیمات شبکه با موفقیت ذخیره شد.');
+        });
+
+        // Update detection threshold output
+        const detectionThreshold = document.getElementById('detection-threshold');
+        const detectionThresholdOutput = detectionThreshold.nextElementSibling;
+        
+        detectionThreshold.addEventListener('input', function() {
+            detectionThresholdOutput.value = this.value;
+        });
+
+        // Validate IP address inputs
+        function validateIPAddress(input) {
+            const ipPattern = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+            if (!ipPattern.test(input.value)) {
+                input.setCustomValidity('لطفاً یک آدرس IP معتبر وارد کنید.');
+            } else {
+                input.setCustomValidity('');
+            }
+        }
+
+        const ipInputs = document.querySelectorAll('input[type="text"][pattern]');
+        ipInputs.forEach(input => {
+            input.addEventListener('input', () => validateIPAddress(input));
+        });
+    </script>
+</body>
+</html>

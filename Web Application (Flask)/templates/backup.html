@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سیستم تشخیص پلاک خودرو</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        @font-face {
+            font-family: 'Vazir';
+            src: url('https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/Vazir-Regular.woff2') format('woff2');
+            font-weight: normal;
+            font-style: normal;
+        }
+        body {
+            font-family: 'Vazir', sans-serif;
+            background-color: #f0f4f8;
+        }
+        .btn {
+            padding: 0.5rem 1rem;
+            border-radius: 0.25rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .btn-edit {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .btn-delete {
+            background-color: #f44336;
+            color: white;
+        }
+        .btn-backup {
+            background-color: #007bff;
+            color: white;
+        }
+        .btn-reset {
+            background-color: #dc3545;
+            color: white;
+        }
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-bottom: 1rem;
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+        th, td {
+            border: 1px solid #e2e8f0;
+            padding: 0.75rem;
+            text-align: right;
+        }
+        th {
+            background-color: #edf2f7;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+        tr:hover {
+            background-color: #e2e8f0;
+        }
+        .nav-menu {
+            background: linear-gradient(45deg, #3498db, #8e44ad);
+            padding: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .nav-logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+        .nav-logo i {
+            margin-left: 0.5rem;
+        }
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+        }
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.25rem;
+            transition: background-color 0.3s;
+        }
+        .nav-link:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: linear-gradient(45deg, #3498db, #8e44ad);
+                padding: 1rem;
+            }
+            .nav-links.show {
+                display: flex;
+            }
+            .nav-toggle {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <nav class="nav-menu">
+        <div class="container mx-auto nav-container">
+            <a href="#" class="nav-logo"><i class="fas fa-car"></i> سیستم تشخیص پلاک خودرو</a>
+            <button class="nav-toggle" onclick="toggleMenu()">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="nav-links" id="navLinks">
+                <a href="{{ url_for('home') }}" class="nav-link"><i class="fas fa-home"></i> خانه</a>
+                <a href="{{ url_for('backup') }}" class="nav-link active"><i class="fas fa-chart-bar"></i> گزارش‌ها</a>
+                <a href="{{ url_for('settings') }}" class="nav-link"><i class="fas fa-cog"></i> تنظیمات</a>
+                <a href="{{ url_for('service') }}" class="nav-link"><i class="fas fa-headset"></i> پشتیبانی</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mx-auto px-4 py-8">
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+            <div class="bg-white rounded-lg shadow-md p-6 animate__animated animate__fadeInLeft">
+                <h2 class="text-2xl font-semibold mb-4">جستجوی پلاک</h2>
+                <form id="search-form" class="mb-4">
+                    <div class="flex">
+                        <input type="text" id="search-input" placeholder="شماره پلاک را وارد کنید" class="flex-grow px-4 py-2 border border-gray-300 rounded-l focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-r">جستجو</button>
+                    </div>
+                </form>
+                <div id="search-results" class="hidden">
+                    <h3 class="text-xl font-semibold mb-2">نتایج جستجو</h3>
+                    <div id="search-result-content" class="bg-gray-100 p-4 rounded"></div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-md p-6 animate__animated animate__fadeInRight">
+                <h2 class="text-2xl font-semibold mb-4">گزارش‌گیری</h2>
+                <form id="report-form">
+                    <div class="mb-4">
+                        <label for="report-type" class="block mb-2">نوع گزارش</label>
+                        <select id="report-type" class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="daily">روزانه</option>
+                            <option value="weekly">هفتگی</option>
+                            <option value="monthly">ماهانه</option>
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <label for="report-date" class="block mb-2">تاریخ گزارش</label>
+                        <input type="date" id="report-date" class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">دریافت گزارش</button>
+                </form>
+            </div>
+        </section>
+
+        <section class="bg-white rounded-lg shadow-md p-6 mb-8 animate__animated animate__fadeInUp">
+            <h2 class="text-2xl font-semibold mb-4">پشتیبان‌گیری و بازیابی</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">پشتیبان‌گیری</h3>
+                    <p class="mb-4">از داده‌های سیستم پشتیبان‌گیری کنید:</p>
+                    <button id="backup-data" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">شروع پشتیبان‌گیری</button>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">بازیابی</h3>
+                    <p class="mb-4">داده‌های سیستم را از فایل پشتیبان بازیابی کنید:</p>
+                    <input type="file" id="restore-file" class="hidden" accept=".zip">
+                    <label for="restore-file" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded cursor-pointer inline-block">انتخاب فایل پشتیبان</label>
+                    <button id="restore-data" class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded mt-2">شروع بازیابی</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white rounded-lg shadow-md p-6 mb-8 animate__animated animate__fadeInUp">
+            <h2 class="text-2xl font-semibold mb-4">گزارش‌های سیستم</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">وضعیت سیستم</h3>
+                    <ul class="list-disc list-inside">
+                        <li>وضعیت سرور: <span id="server-status" class="font-bold text-green-600">فعال</span></li>
+                        <li>مصرف CPU: <span id="cpu-usage" class="font-bold">25%</span></li>
+                        <li>مصرف حافظه: <span id="memory-usage" class="font-bold">2.5 GB / 8 GB</span></li>
+                        <li>فضای ذخیره‌سازی: <span id="storage-usage" class="font-bold">150 GB / 500 GB</span></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold mb-2">لاگ‌های سیستم</h3>
+                    <div id="system-logs" class="bg-gray-100 p-4 rounded h-48 overflow-y-auto">
+                        <!-- System logs will be dynamically added here -->
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-800 text-white py-4 mt-8">
+        <div class="container mx-auto text-center">
+            <p>&copy; 2024 سیستم تشخیص پلاک خودرو. تمامی حقوق محفوظ است.</p>
+        </div>
+    </footer>
+	
+    <script>
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+    </script>
+</body>
+</html>

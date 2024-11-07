@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>پشتیبانی و راهنما - سیستم تشخیص پلاک خودرو</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @font-face {
+            font-family: 'Vazir';
+            src: url('https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/Vazir-Regular.woff2') format('woff2');
+            font-weight: normal;
+            font-style: normal;
+        }
+        body {
+            font-family: 'Vazir', sans-serif;
+            background-color: #f0f4f8;
+        }
+        .nav-menu {
+            background: linear-gradient(45deg, #3498db, #8e44ad);
+            padding: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .nav-logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+        .nav-logo i {
+            margin-left: 0.5rem;
+        }
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+        }
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.25rem;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+        }
+        .nav-link i {
+            margin-left: 0.5rem;
+        }
+        .nav-link:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+        .nav-link.active {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: linear-gradient(45deg, #3498db, #8e44ad);
+                padding: 1rem;
+            }
+            .nav-links.show {
+                display: flex;
+            }
+            .nav-toggle {
+                display: block;
+            }
+        }
+        .accordion-button {
+            cursor: pointer;
+            padding: 1rem;
+            width: 100%;
+            text-align: right;
+            border: none;
+            outline: none;
+            transition: 0.4s;
+        }
+        .accordion-button:hover {
+            background-color: #e2e8f0;
+        }
+        .accordion-content {
+            padding: 0 1rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.2s ease-out;
+        }
+        .card {
+            transition: all 0.3s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        .animated-icon {
+            transition: all 0.3s;
+        }
+        .animated-icon:hover {
+            transform: scale(1.2);
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <nav class="nav-menu">
+        <div class="container mx-auto nav-container">
+            <a href="#" class="nav-logo"><i class="fas fa-car animated-icon"></i> سیستم تشخیص پلاک خودرو</a>
+            <button class="nav-toggle" onclick="toggleMenu()">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="nav-links" id="navLinks">
+                <a href="{{ url_for('home') }}" class="nav-link"><i class="fas fa-home animated-icon"></i> خانه</a>
+                <a href="{{ url_for('backup') }}" class="nav-link"><i class="fas fa-chart-bar animated-icon"></i> گزارش‌ها</a>
+                <a href="{{ url_for('settings') }}" class="nav-link"><i class="fas fa-cog animated-icon"></i> تنظیمات</a>
+                <a href="{{ url_for('support') }}" class="nav-link active"><i class="fas fa-headset animated-icon"></i> پشتیبانی</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mx-auto mt-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-white rounded-lg shadow-md p-6 animate__animated animate__fadeInLeft card">
+                <h2 class="text-2xl font-semibold mb-4"><i class="fas fa-envelope animated-icon text-blue-500"></i> تماس با ما</h2>
+                <form id="supportForm" class="space-y-4">
+                    <div>
+                        <label for="name" class="block mb-1">نام و نام خانوادگی:</label>
+                        <input type="text" id="name" name="name" class="w-full p-2 border rounded" required>
+                    </div>
+                    <div>
+                        <label for="email" class="block mb-1">ایمیل:</label>
+                        <input type="email" id="email" name="email" class="w-full p-2 border rounded" required>
+                    </div>
+                    <div>
+                        <label for="subject" class="block mb-1">موضوع:</label>
+                        <input type="text" id="subject" name="subject" class="w-full p-2 border rounded" required>
+                    </div>
+                    <div>
+                        <label for="message" class="block mb-1">پیام:</label>
+                        <textarea id="message" name="message" rows="4" class="w-full p-2 border rounded" required></textarea>
+                    </div>
+                    <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-300">ارسال درخواست</button>
+                </form>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-md p-6 animate__animated animate__fadeInRight card">
+                <h2 class="text-2xl font-semibold mb-4"><i class="fas fa-info-circle animated-icon text-green-500"></i> اطلاعات تماس</h2>
+                <ul class="space-y-2">
+                    <li><i class="fas fa-envelope-open-text animated-icon text-purple-500"></i> ایمیل: official.parvizi@gmail.com</li>
+                    <li><i class="fas fa-phone animated-icon text-red-500"></i> تلفن پشتیبانی: 09011325118</li>
+                    <li><i class="fas fa-clock animated-icon text-yellow-500"></i> ساعات کاری: شنبه تا چهارشنبه، 10 صبح تا 5 عصر</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-md p-6 mt-6 animate__animated animate__fadeInUp card">
+            <h2 class="text-2xl font-semibold mb-4"><i class="fas fa-question-circle animated-icon text-orange-500"></i> سؤالات متداول</h2>
+            <div class="space-y-4">
+                <div class="accordion">
+                    <button class="accordion-button bg-gray-200 hover:bg-gray-300">
+                        <i class="fas fa-plus ml-2"></i>چگونه می‌توانم از سیستم تشخیص پلاک استفاده کنم؟
+                    </button>
+                    <div class="accordion-content">
+                        <p class="p-4">برای استفاده از سیستم تشخیص پلاک، ابتدا باید دوربین را در محل مورد نظر نصب کنید. سپس، با استفاده از نرم‌افزار ما، می‌توانید تصاویر را پردازش کرده و پلاک‌ها را شناسایی کنید.</p>
+                    </div>
+                </div>
+                <div class="accordion">
+                    <button class="accordion-button bg-gray-200 hover:bg-gray-300">
+                        <i class="fas fa-plus ml-2"></i>آیا این سیستم قابل اتصال به سیستم‌های دیگر است؟
+                    </button>
+                    <div class="accordion-content">
+                        <p class="p-4">بله، سیستم ما قابلیت یکپارچه‌سازی با سیستم‌های دیگر مانند کنترل تردد، مدیریت پارکینگ و سیستم‌های امنیتی را دارد.</p>
+                    </div>
+                </div>
+                <div class="accordion">
+                    <button class="accordion-button bg-gray-200 hover:bg-gray-300">
+                        <i class="fas fa-plus ml-2"></i>دقت تشخیص پلاک چقدر است؟
+                    </button>
+                    <div class="accordion-content">
+                        <p class="p-4">دقت تشخیص پلاک در سیستم ما بیش از 98% است. البته این میزان می‌تواند تحت تأثیر شرایط محیطی مانند نور، زاویه دوربین و کیفیت تصویر قرار گیرد.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-md p-6 mt-6 animate__animated animate__fadeInUp card">
+            <h2 class="text-2xl font-semibold mb-4"><i class="fas fa-book animated-icon text-indigo-500"></i> راهنمای استفاده</h2>
+            <div class="space-y-4">
+                <h3 class="text-xl font-semibold">دستورالعمل‌های گام به گام:</h3>
+                <ol class="list-decimal list-inside space-y-2">
+                    <li><i class="fas fa-camera animated-icon text-blue-400"></i> نصب دوربین در محل مناسب</li>
+                    <li><i class="fas fa-plug animated-icon text-green-400"></i> اتصال دوربین به سیستم</li>
+                    <li><i class="fas fa-sliders-h animated-icon text-yellow-400"></i> تنظیم پارامترهای نرم‌افزار</li>
+                    <li><i class="fas fa-play animated-icon text-red-400"></i> شروع فرآیند تشخیص پلاک</li>
+                    <li><i class="fas fa-eye animated-icon text-purple-400"></i> مشاهده و مدیریت نتایج</li>
+                </ol>
+                <h3 class="text-xl font-semibold mt-4">ویدیوهای آموزشی:</h3>
+                <ul class="list-disc list-inside space-y-2">
+                    <li><a href="#" class="text-blue-500 hover:underline"><i class="fas fa-video animated-icon"></i> نحوه نصب و راه‌اندازی سیستم </a></li>
+                    <li><a href="#" class="text-blue-500 hover:underline"><i class="fas fa-desktop animated-icon"></i> آموزش کار با نرم‌افزار </a></li>
+                    <li><a href="#" class="text-blue-500 hover:underline"><i class="fas fa-cogs animated-icon"></i> تنظیمات پیشرفته و بهینه‌سازی </a></li>
+                </ul>
+                <h3 class="text-xl font-semibold mt-4">نکات و ترفندها:</h3>
+                <ul class="list-disc list-inside space-y-2">
+                    <li><i class="fas fa-lightbulb animated-icon text-yellow-500"></i> برای بهترین نتیجه، دوربین را در ارتفاع و زاویه مناسب نصب کنید.</li>
+                    <li><i class="fas fa-moon animated-icon text-gray-500"></i> از نورپردازی مناسب در شب استفاده کنید تا دقت تشخیص افزایش یابد.</li>
+                    <li><i class="fas fa-sync animated-icon text-green-500"></i> سیستم را به طور منظم به‌روزرسانی کنید تا از آخرین بهبودها بهره‌مند شوید.</li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function toggleMenu() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.toggle('show');
+        }
+
+        document.getElementById('supportForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            Swal.fire({
+                title: 'درخواست ارسال شد',
+                text: 'پیام شما با موفقیت ارسال شد. به زودی با شما تماس خواهیم گرفت.',
+                icon: 'success',
+                confirmButtonText: 'باشه'
+            });
+            this.reset();
+        });
+
+        const accordions = document.getElementsByClassName("accordion-button");
+        for (let i = 0; i < accordions.length; i++) {
+            accordions[i].addEventListener("click", function() {
+                this.classList.toggle("active");
+                const icon = this.querySelector('i');
+                icon.classList.toggle('fa-plus');
+                icon.classList.toggle('fa-minus');
+                const content = this.nextElementSibling;
+                if (content.style.maxHeight) {
+                    content.style.maxHeight = null;
+                } else {
+                    content.style.maxHeight = content.scrollHeight + "px";
+                }
+            });
+        }
+    </script>
+</body>
+</html>
