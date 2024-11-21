@@ -3,7 +3,7 @@
 A deep learning model for recognizing Persian license plate numbers using TensorFlow/Keras.
 
 
-[DATASET](https://forms.gle/CbNBWCbmjRRDoLFr5)
+[Iranian License Plate Dataset Request Form](https://forms.gle/CbNBWCbmjRRDoLFr5)
 
 ## 📝 Table of Contents
 - [Overview](#overview)
