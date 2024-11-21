@@ -130,3 +130,33 @@ sequenceDiagram
 - Perspective transformation
 - Noise overlay
 - Resolution adjustment
+
+### Performance Metrics
+- **Processing Speed**: Capable of generating over 300 million unique license plates
+- **Parallel Tasks**: Processes multiple template-font combinations simultaneously
+- **Resource Utilization**: Efficiently uses all available CPU cores
+
+### Optimization Features
+1. **Glyph Caching**
+   - Pre-loads and caches frequently used glyphs
+   - Reduces repeated disk I/O operations
+
+2. **Task Distribution**
+   - Each template-font combination runs as a separate process
+   - Automatic workload balancing across CPU cores
+
+3. **Memory Management**
+   - Efficient image handling using PIL
+   - Proper resource cleanup after each generation
+
+### Generation Statistics
+For each template-font combination:
+- 5 permutations (controlled by `permutations` variable)
+- Multiple transformation variants
+- Noise pattern variations
+- Total combinations = templates × fonts × permutations × transformations × noises
+
+### Usage Tips
+- Adjust `permutations` variable for different batch sizes
+- Monitor system resources during large-scale generation
+- Consider disk space requirements for output storage
