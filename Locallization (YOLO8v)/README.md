@@ -2,6 +2,9 @@
 
 An advanced implementation of license plate detection using YOLOv8, YOLOv10 small model, trained on a custom Persian license plate dataset.
 
+[Iranian License Plate Dataset Request Form](https://forms.gle/CbNBWCbmjRRDoLFr5)
+
+
 ## 📊 Project Overview
 
 ```mermaid
