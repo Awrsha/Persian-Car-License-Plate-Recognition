@@ -154,12 +154,76 @@ names: ['licence']
 
 ### Final Results
 
-| Metric | Value - YOLOv8s | Value - YOLOv10s | Value - YOLOv11s |
-|--------|----------------|------------------|------------------
-| Box Precision | 0.998 | 0.990 | 0.998 |
-| Recall | 0.985 | 0.989 | 0.984 |
-| mAP50 | 0.995 | 0.995 | 0.995 |
-| mAP50-95 | 0.825 | 0.816 | ? |
+| Metric | YOLOv5s Normal | YOLOv5s Optimized | Value - YOLOv8s | Value - YOLOv10s | Value - YOLOv11s |
+|--------|----------------|-------------------|------------------|------------------|------------------|
+| Box Precision | 1.000 | 0.996 | 0.998 | 0.990 | 0.998 |
+| Recall | 0.990 | 0.992 | 0.985 | 0.989 | 0.984 |
+| mAP50 | 0.995 | 0.995 | 0.995 | 0.995 | 0.995 |
+| mAP50-95 | 0.833 | 0.800 | 0.825 | 0.816 | ? |
+| Parameters | 7.0M | 1.8M | 11.1M | 8.04M | ? |
+| GFLOPs | 15.8 | 4.1 | 28.4 | 24.4 | ? |
+| Training Time | 2.064h | 0.938h | 2.676h | 3.360h | ? |
+| Model Size | 14.4MB | 3.8MB | 22.5MB | 16.5MB | ? |
+
+```mermaid
+graph LR
+    A[Model Comparison] --> B[Normal Model]
+    A --> C[Optimized Model]
+    
+    B --> B1[Size: 14.4MB]
+    B --> B2[Training: 2.064h]
+    B --> B3[GFLOPs: 15.8]
+    B --> B4[mAP50-95: 0.833]
+    
+    C --> C1[Size: 3.8MB]
+    C --> C2[Training: 0.938h]
+    C --> C3[GFLOPs: 4.1]
+    C --> C4[mAP50-95: 0.800]
+
+```
+
+### 📊 Detailed Metrics Comparison
+
+| Metric | Normal Model | Optimized Model | Improvement |
+|--------|--------------|-----------------|-------------|
+| Model Size | 14.4MB | 3.8MB | -74% 📉 |
+| Training Time | 2.064h | 0.938h | -54% ⚡ |
+| GFLOPs | 15.8 | 4.1 | -74% 💪 |
+
+### 🎯 Accuracy Metrics
+
+```mermaid
+graph TB
+    subgraph Normal Model
+    A1[Precision: 1.000]
+    A2[Recall: 0.990]
+    A3[mAP50: 0.995]
+    A4[mAP50-95: 0.833]
+    end
+    
+    subgraph Optimized Model
+    B1[Precision: 0.996]
+    B2[Recall: 0.992]
+    B3[mAP50: 0.995]
+    B4[mAP50-95: 0.800]
+    end
+```
+
+### 💡 Key Findings
+
+```mermaid
+pie
+    title Performance Trade-off
+    "Accuracy Loss" : 3.3
+    "Size Reduction" : 74
+    "Speed Improvement" : 54
+```
+
+### Summary of Improvements
+- ⚡ **Training Speed**: 54% faster
+- 💾 **Model Size**: 74% smaller
+- 🔄 **Computations**: 74% fewer GFLOPs
+- 🎯 **Accuracy Trade-off**: Only 3.3% decrease in mAP50-95
 
 ## 🔄 Data Augmentation
 
