@@ -1,6 +1,6 @@
-# 🚗 Persian Car Plate Recognition (Locallization) Using YOLO-NAS, YOLOv5, YOLOv8, YOLOv10
+# 🚗 Persian Car Plate Recognition (Locallization) Using YOLOv5, YOLOv8, YOLOv10, YOLOv11s
 
-An advanced implementation of license plate detection using YOLO-NAS, YOLOv5, YOLOv8, YOLOv10 small models, trained on a custom Iranian License Plate Dataset | [Request Form for this dataset](https://forms.gle/CbNBWCbmjRRDoLFr5).
+An advanced implementation of license plate detection using YOLOv5, YOLOv8, YOLOv10, YOLOv11 small models, trained on a custom Iranian License Plate Dataset | [Request Form for this dataset](https://forms.gle/CbNBWCbmjRRDoLFr5).
 
 ## Model Overview
 
@@ -154,12 +154,12 @@ names: ['licence']
 
 ### Final Results
 
-| Metric | Value - YOLOv8s | Value - YOLOv10s |
-|--------|----------------|------------------|
-| Box Precision | 0.998 | 0.990 |
-| Recall | 0.985 | 0.989 |
-| mAP50 | 0.995 | 0.995 |
-| mAP50-95 | 0.825 | 0.816 |
+| Metric | Value - YOLOv8s | Value - YOLOv10s | Value - YOLOv11s |
+|--------|----------------|------------------|------------------
+| Box Precision | 0.998 | 0.990 | 0.998 |
+| Recall | 0.985 | 0.989 | 0.984 |
+| mAP50 | 0.995 | 0.995 | 0.995 |
+| mAP50-95 | 0.825 | 0.816 | ? |
 
 ## 🔄 Data Augmentation
 
