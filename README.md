@@ -100,8 +100,4 @@ This repository is licensed under the [Apache-2.0 license](LICENSE). Any use wit
   </table>
 </div>
 
-
-## FeedBack : 🛠  
-<br /> ⚛️ Contact Us : <a href="https://sites.google.com/view/mrl-hsl">Here</a>. </ul> <p align="center">💙 If you like our projects, Give them ⭐ and Share it with friends!</p></p>
-
 <p align="center"><img height="27" src="https://raw.githubusercontent.com/mayhemantt/mayhemantt/Update/svg/Bottom.svg" alt="Github Stats" /></p>
