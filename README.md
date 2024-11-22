@@ -35,14 +35,50 @@ This advanced version emphasizes the system's potential for scalability and futu
 ### Innovations and Tools Used in This Project :
 
 - OCR for Character Recognition in License Plates: Leveraging Optical Character Recognition to accurately detect and extract characters from vehicle license plates.
+  
 - CANVAS for Locating Specific Regions on the License Plate: Using advanced image manipulation tools to precisely locate and isolate specific areas of the license plate for further analysis.
+  
 - FLASK for Web-based License Plate Registration System: Developing a web-based system using Flask to handle real-time license plate recognition and registration.
+  
 - Recognition, Detection, and Localization in Neural Networks: Implementing various architectures in neural networks, including models designed for object detection, recognition, and localization tasks.
+  
 - YOLO-NAS, YOLOv5, YOLOv8, YOLOv10 for License Plate Detection: Utilizing YOLOv8 (You Only Look Once) for fast and efficient license plate detection within vehicle images, isolating the plates and passing them to the OCR network for character recognition.
+  
 - Attention Mechanism for Enhanced Vehicle Attribute Recognition: Using attention layers to improve the accuracy of recognizing key vehicle attributes such as make, color, and direction.
+  
 - CNN (Convolutional Neural Networks): Serving as the primary architecture for the neural networks, particularly for feature extraction and classification tasks in image-based datasets.
+  
 - GAN (Generative Adversarial Networks) for Synthetic License Plate Generation: Employing GANs to generate synthetic license plates, enabling the creation of large, unique datasets with millions of distinct plates for robust model training.
+  
 - Qt5, Qt6, PyQt5, PyQt6 for Windows-based License Plate Registration Systems: Utilizing Qt frameworks for building advanced GUI-based applications for license plate registration on Windows platforms.
+
+## 📊 System Architecture
+
+```mermaid
+graph TD
+    A[Input Image/Video Stream] --> B[License Plate Detection]
+    B --> C[Plate Localization]
+    C --> D[Character Segmentation]
+    D --> E[OCR Processing]
+    E --> F[Data Validation]
+    F --> G[Database Storage]
+    G --> H[User Interface]
+    
+    B --> I[Vehicle Attribute Detection]
+    I --> J[Make Recognition]
+    I --> K[Color Detection]
+    I --> L[Direction Tracking]
+```
+
+## 🚀 Features Matrix
+
+| Feature Category | Current Version | Next Release | Future Plans |
+|-----------------|-----------------|--------------|--------------|
+| License Types | Police, IRGC, Military, Public | Disability, Diplomatic | International Plates |
+| Recognition Capability | Static Images | Real-time Video | Multi-camera Systems |
+| Processing Speed | 2-3 FPS | 10+ FPS | 30+ FPS |
+| Accuracy Rate | 95% | 97% | 99% |
+| Integration Options | Standalone | API Support | Cloud Services |
 
 ## Usage
 
