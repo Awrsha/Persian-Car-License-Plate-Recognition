@@ -43,7 +43,7 @@ names: ['licence']
 
 | Parameter | Value | Description |
 |-----------|-------|-------------|
-| Model | YOLOv8s, YOLOv10s, YOLOv10x | Small variant of YOLOv8, YOLOv10 & Large variant of YOLOv10 |
+| Model | YOLOv8s, YOLOv10 | Small variant of YOLOv8, YOLOv10 |
 | Epochs | 100 | Total training iterations |
 | Task | Detection | Object detection task |
 | Classes | 1 | Single class (license plate) |
@@ -53,12 +53,12 @@ names: ['licence']
 
 ### Final Results
 
-| Metric | Value - YOLOv8s | Value - YOLOv10s | YOLOv10x |
-|--------|-------|-------|-------|
-| Box Precision | 0.998 | ? | ? |
-| Recall | 0.985 | ? | ? |
-| mAP50 | 0.995 | ? | ? |
-| mAP50-95 | 0.825 | ? | ? |
+| Metric | Value - YOLOv8s | Value - YOLOv10s |
+|--------|----------------|------------------|
+| Box Precision | 0.998 | 0.990 |
+| Recall | 0.985 | 0.989 |
+| mAP50 | 0.995 | 0.995 |
+| mAP50-95 | 0.825 | 0.816 |
 
 ## 🔄 Data Augmentation
 
