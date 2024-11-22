@@ -58,10 +58,46 @@ This repository is licensed under the [Apache-2.0 license](LICENSE). Any use wit
 
 ## Developers 👨🏻‍💻
 
-<div style="display: flex; flex-wrap: nowrap; overflow-x: auto;">
-  
-  [<img src="https://avatars.githubusercontent.com/u/89135083?v=4" width="100" alt="Awrsha Parvizi"/><br /><sub><b>Amir M. Parvizi</b></sub>](https://github.com/Awrsha)
-  
+<div align="center">
+  <table>
+    <tr>
+      <td align="center">
+        <a href="https://github.com/Awrsha">
+          <img src="https://avatars.githubusercontent.com/u/89135083?v=4" width="100px;" style="border-radius:50%;" alt="Amir M. Parvizi"/>
+          <br />
+          <sub><b>Amir M. Parvizi</b></sub>
+        </a>
+        <br />
+        <a href="https://www.linkedin.com/in/awrsha/">
+          <img src="https://img.shields.io/badge/-LinkedIn-0077B5?style=flat&logo=Linkedin&logoColor=white" />
+        </a>
+      </td>
+      <br />
+      <td align="center">
+        <a href="https://github.com/amir-rs">
+          <img src="https://avatars.githubusercontent.com/u/130686801?v=4" width="100px;" style="border-radius:50%;" alt="Amirreza Salehi"/>
+          <br />
+          <sub><b>Amirreza Salehi</b></sub>
+        </a>
+        <br />
+        <a href="https://t.me/Notfound_ars">
+          <img src="https://img.shields.io/badge/-Telegram-2CA5E0?style=flat&logo=telegram&logoColor=white" />
+        </a>
+      </td>
+      <br />
+      <td align="center">
+        <a href="https://github.com/arash-mehrzadi">
+          <img src="https://avatars.githubusercontent.com/u/48579846?v=4" width="100px;" style="border-radius:50%;" alt="Arash Mehrzadi"/>
+          <br />
+          <sub><b>Arash Mehrzadi</b></sub>
+        </a>
+        <br />
+        <a href="https://arashmehrzadi.com">
+          <img src="https://img.shields.io/badge/-Website-000000?style=flat&logo=about.me&logoColor=white" />
+        </a>
+      </td>
+    </tr>
+  </table>
 </div>
 
 
