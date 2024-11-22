@@ -38,7 +38,7 @@ This advanced version emphasizes the system's potential for scalability and futu
 - CANVAS for Locating Specific Regions on the License Plate: Using advanced image manipulation tools to precisely locate and isolate specific areas of the license plate for further analysis.
 - FLASK for Web-based License Plate Registration System: Developing a web-based system using Flask to handle real-time license plate recognition and registration.
 - Recognition, Detection, and Localization in Neural Networks: Implementing various architectures in neural networks, including models designed for object detection, recognition, and localization tasks.
-- YOLOv8 for License Plate Detection: Utilizing YOLOv8 (You Only Look Once) for fast and efficient license plate detection within vehicle images, isolating the plates and passing them to the OCR network for character recognition.
+- YOLO-NAS, YOLOv5, YOLOv8, YOLOv10 for License Plate Detection: Utilizing YOLOv8 (You Only Look Once) for fast and efficient license plate detection within vehicle images, isolating the plates and passing them to the OCR network for character recognition.
 - Attention Mechanism for Enhanced Vehicle Attribute Recognition: Using attention layers to improve the accuracy of recognizing key vehicle attributes such as make, color, and direction.
 - CNN (Convolutional Neural Networks): Serving as the primary architecture for the neural networks, particularly for feature extraction and classification tasks in image-based datasets.
 - GAN (Generative Adversarial Networks) for Synthetic License Plate Generation: Employing GANs to generate synthetic license plates, enabling the creation of large, unique datasets with millions of distinct plates for robust model training.
